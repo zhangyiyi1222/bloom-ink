@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-world="bloom" data-accent="bloom" data-page="article">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>组件测试：所有正文元素都在这一篇里 · 一个人像一朵花</title>
+<meta name="description" content="一次把所有正文组件看完：标题、列表、引用、图片、宽图、多图、视频、音频、代码、表格、脚注、公式、分割线。">
+<link rel="canonical" href="https://zhangzhongwei.top/bloom/component-test/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件测试：所有正文元素都在这一篇里 · 一个人像一朵花">
+<meta property="og:description" content="一次把所有正文组件看完：标题、列表、引用、图片、宽图、多图、视频、音频、代码、表格、脚注、公式、分割线。">
+<meta property="og:url" content="https://zhangzhongwei.top/bloom/component-test/">
+<meta property="og:site_name" content="一个人像一朵花">
+
+<meta property="og:image" content="https://zhangzhongwei.top/uploads/2026/09/demo-11-5a0c1441.png">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="组件测试：所有正文元素都在这一篇里 · 一个人像一朵花">
+<meta name="twitter:description" content="一次把所有正文组件看完：标题、列表、引用、图片、宽图、多图、视频、音频、代码、表格、脚注、公式、分割线。">
+
+<meta name="twitter:image" content="https://zhangzhongwei.top/uploads/2026/09/demo-11-5a0c1441.png">
+
+
+<meta property="article:published_time" content="2026-09-14T13:10:00.000Z">
+
+<meta property="article:tag" content="测试,renderer">
+
+
+<meta name="theme-color" content="#8a7ac8">
+<meta name="color-scheme" content="light">
+<meta name="bloom-image" content="/visuals/bloom-20260914163435-a26ae6.jpg">
+<meta name="ink-image" content="/visuals/ink-20260914163454-d1c133.jpg">
+<link rel="alternate" type="application/rss+xml" title="一个人像一朵花 · 全部" href="/rss.xml">
+<link rel="alternate" type="application/rss+xml" title="一个人像一朵花 · 日志" href="/log/rss.xml">
+<link rel="icon" type="image/svg+xml" href="/favicon.ico">
+<link rel="preload" as="font" type="font/woff2" href="/static/fonts/SourceHanSerifCN-Regular.woff2" crossorigin>
+<link rel="stylesheet" href="/assets/site.css?v=1789408358036">
+
+<link rel="stylesheet" href="/vendor/katex/katex.min.css">
+
+
+<style>
+  :root {
+    --bloom-ambient: url('/visuals/bloom-20260914163435-a26ae6.jpg');
+    --ink-ambient: url('/visuals/ink-20260914163454-d1c133.jpg');
+    --section-ambient: url('/visuals/bloom-20260914165056-23d10f.jpg');
+  }
+
+  /* 换页 / 换世界的时候：第一帧就是这个颜色，然后慢慢化开。
+     于是新页面是从颜色里“浮”出来的，而不是“啪”地闪出来。 */
+  html[data-entering]::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--enter-color, #ffffff);
+    transition: opacity 1.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+
+  html[data-entering].enter-fade::before {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-entering]::before {
+      transition-duration: 0.15s;
+    }
+  }
+</style>
+<script>
+  (function () {
+    try {
+      var color = sessionStorage.getItem('enter-veil');
+      // 旧的一层渐变已由颜色渐显取代，这里顺手清掉，避免叠两层
+      sessionStorage.removeItem('world-enter');
+      if (!color) return;
+      sessionStorage.removeItem('enter-veil');
+      document.documentElement.dataset.entering = '1';
+      document.documentElement.style.setProperty('--enter-color', color);
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body class="page-shell page-shell--bloom">
+
+
+<div class="section-ambient" aria-hidden="true"></div>
+
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-brand" href="/" aria-label="张中伟 · 回到首页"><svg class="site-sun" viewBox="0 0 40 40" role="img" aria-label="太阳"><g stroke-linecap="round" stroke-width="2"><line x1="20" y1="3" x2="20" y2="7.4" stroke="#a8d5a2"/><line x1="29.5" y1="6.6" x2="27.4" y2="10.4" stroke="#a9cfe8"/><line x1="36.4" y1="14" x2="32.4" y2="15.9" stroke="#8fd0c8"/><line x1="33.8" y1="26" x2="30.1" y2="24" stroke="#b39ddb"/><line x1="25.4" y1="34.2" x2="23.6" y2="30.2" stroke="#f4b8c4"/><line x1="14" y1="34.4" x2="15.7" y2="30.4" stroke="#f08a9b"/><line x1="5.5" y1="26.6" x2="9.5" y2="24.7" stroke="#f7e07a"/><line x1="4.8" y1="14.4" x2="8.8" y2="16.3" stroke="#f5b071"/></g><circle cx="20" cy="20" r="9.4" fill="#f8cc63"/><circle cx="17.3" cy="17.2" r="3.4" fill="#fff5d6" opacity="0.92"/></svg></a>
+
+    <div class="header-right">
+      <nav class="site-nav site-nav--bloom" aria-label="绽放">
+        <a class="nav-link" href="/">首页</a>
+        
+        <a class="nav-link is-active" href="/bloom/">绽放</a>
+        
+        <a class="nav-link" href="/self/">本真</a>
+        
+        <a class="nav-link" href="/origin/">缘起</a>
+        
+      </nav>
+
+      <nav class="site-nav site-nav--ink" aria-label="入墨">
+        <a class="nav-link--home" href="/ink/">首页</a>
+        <a class="nav-link" href="/log/">归心</a>
+      </nav>
+
+      <div class="header-tools">
+        <button type="button" class="nav-icon" data-search-open aria-label="搜索" title="搜索（/ 或 Ctrl+K）">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.6" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="12.9" y1="12.9" x2="17.2" y2="17.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a class="world-toggle" href="/log/" data-world-toggle aria-label="回到自己（归心）" title="回到自己（归心）">
+          <span class="world-toggle__sun" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="4.1" fill="none" stroke="currentColor" stroke-width="1.3"/><g stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="10" y1="1.8" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18.2"/><line x1="1.8" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18.2" y2="10"/><line x1="4.3" y1="4.3" x2="5.9" y2="5.9"/><line x1="14.1" y1="14.1" x2="15.7" y2="15.7"/><line x1="4.3" y1="15.7" x2="5.9" y2="14.1"/><line x1="14.1" y1="5.9" x2="15.7" y2="4.3"/></g></svg>
+          </span>
+          <span class="world-toggle__moon" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><path d="M13.6 2.4a7.4 7.4 0 1 0 4 13.3 7.6 7.6 0 0 1-4-13.3z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+
+
+<main class="main container main--narrow">
+  <article class="post">
+    <header class="post__head">
+      <h1 class="post__title">组件测试：所有正文元素都在这一篇里</h1>
+      <p class="post__meta">
+        <span class="post__author">张中伟</span>
+        <span class="post__sep" aria-hidden="true">/</span>
+        <time datetime="2026-09-14T13:10:00.000Z">2026年9月14日</time>
+      </p>
+    </header>
+
+    <div class="post__body md">
+      <p>这一篇用来一次性验完正文 renderer 的所有能力。下面每一个组件都是真的，不是示意图。</p>
+<h3 id="二级标题" tabindex="-1">二级标题</h3>
+<p>正文里的普通段落是这样的：中文阅读要舒服，行高、段距、字距都按长期阅读来调，而不是按宣传页来调。</p>
+<h4 id="三级标题" tabindex="-1">三级标题</h4>
+<p>再往下还有四级标题，用来分小节。标题不应该每一个都做成巨大的设计，它们只是路标。</p>
+<h5 id="四级标题" tabindex="-1">四级标题</h5>
+<p>段落里可以有<strong>粗体</strong>、<em>斜体</em>、<s>删除线</s>、行内代码 <code>const hello = &quot;world&quot;</code>。</p>
+<p>正文中的链接可以是<a href="/bloom/">站内的</a>，也可以是<a href="https://yihui.org/cn/" class="md-link--ext" target="_blank" rel="noopener noreferrer">外部的</a>，外链会有一个很轻的标记。</p>
+<blockquote>
+<p>引用应该像文章里自然出现的一句话，而不是一张卡片。</p>
+<p>它只有一条很细的左边线，和一点点缩进。</p>
+</blockquote>
+<p>有序列表：</p>
+<ol>
+<li>第一步：把想法写下来，不管好坏。</li>
+<li>第二步：放两天再读，删掉一半。</li>
+<li>第三步：只留最诚实的那一部分。</li>
+</ol>
+<p>无序列表：</p>
+<ul>
+<li>不要给日期做 Badge</li>
+<li>不要给文章做信息卡</li>
+<li>不要一排分享按钮</li>
+<li>不要相关推荐墙</li>
+</ul>
+<h3 id="图片" tabindex="-1">图片</h3>
+<p>正文宽的图片（与文字同宽，默认居中）：</p>
+<div class="md-media"><figure class="md-figure"><img src="/uploads/2026/09/demo-11-5a0c1441.png" alt="演示图片 演示图片" loading="lazy" decoding="async" width="1600" height="1067"><figcaption>这是 caption，写在图片的 title 里就会显示在图下方；不写就不留位置。</figcaption></figure></div>
+<p>一张带 caption 的竖图：</p>
+<div class="md-media"><figure class="md-figure"><img src="/uploads/2026/09/demo-22-417fb99d.png" alt="演示图片 演示图片" loading="lazy" decoding="async" width="1000" height="1400"><figcaption>竖图在正文里也不应该超过容器宽度。</figcaption></figure></div>
+<p>宽图（比正文略宽，约 960px）：</p>
+<div class="md-media"><figure class="md-figure md-figure--wide"><img src="/uploads/2026/09/demo-33-ed4f7fa3.png" alt="宽图演示" loading="lazy" decoding="async" width="1600" height="900"></figure></div>
+<p>满内容宽（更宽，但不会造成横向滚动）：</p>
+<div class="md-media"><figure class="md-figure md-figure--full"><img src="/uploads/2026/09/demo-44-1ed0791c.png" alt="满宽演示" loading="lazy" decoding="async" width="1200" height="1200"></figure></div>
+<h3 id="多图" tabindex="-1">多图</h3>
+<p>连续两张图会自动并排：</p>
+<div class="md-gallery md-media" data-count="2"><figure class="md-figure"><img src="/uploads/2026/09/demo-11-5a0c1441.png" alt="双图 A" loading="lazy" decoding="async" width="1600" height="1067"></figure>
+<figure class="md-figure"><img src="/uploads/2026/09/demo-22-417fb99d.png" alt="双图 B" loading="lazy" decoding="async" width="1000" height="1400"></figure></div>
+<p>连续三张图会组成一行三张：</p>
+<div class="md-gallery md-media" data-count="3"><figure class="md-figure"><img src="/uploads/2026/09/demo-11-5a0c1441.png" alt="三图 A" loading="lazy" decoding="async" width="1600" height="1067"></figure>
+<figure class="md-figure"><img src="/uploads/2026/09/demo-44-1ed0791c.png" alt="三图 B" loading="lazy" decoding="async" width="1200" height="1200"></figure>
+<figure class="md-figure"><img src="/uploads/2026/09/demo-33-ed4f7fa3.png" alt="三图 C" loading="lazy" decoding="async" width="1600" height="900"></figure></div>
+<h3 id="视频" tabindex="-1">视频</h3>
+<p>B 站视频直接贴地址就会变成自适应比例的嵌入：</p>
+<div class="md-embed"><iframe src="https://player.bilibili.com/player.html?bvid=BV1xx411c7mD&amp;autoplay=0&amp;high_quality=1" loading="lazy" allowfullscreen="true" referrerpolicy="no-referrer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe></div><p>YouTube 同样：</p>
+<div class="md-embed"><iframe src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" loading="lazy" allowfullscreen="true" referrerpolicy="no-referrer" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"></iframe></div><p>本地视频文件放进媒体库以后，也是用同样的 Markdown 语法插入（<code>.mp4 / .webm / .mov</code> 会自动渲染成播放器）。</p>
+<h3 id="音频" tabindex="-1">音频</h3>
+<p>音频播放器（这一条是真的音频，可以点开听）：</p>
+<div class="md-media"><figure class="md-figure md-figure--audio"><audio controls preload="metadata" src="/uploads/2026/09/demo-audio-5db29c95.wav"></audio><figcaption>六秒钟的合成音，用来验证音频组件。</figcaption></figure></div>
+<h3 id="代码" tabindex="-1">代码</h3>
+<p>JavaScript：</p>
+<div class="md-code" data-lang="js"><div class="md-code__bar"><span class="md-code__lang">js</span><button type="button" class="md-code__copy" data-copy>复制</button></div><pre class="md-code__pre"><code class="hljs language-js"><span class="hljs-keyword">export</span> <span class="hljs-keyword">function</span> <span class="hljs-title function_">bloom</span>(<span class="hljs-params">seed</span>) {
+  <span class="hljs-keyword">const</span> petals = seed.<span class="hljs-title function_">split</span>(<span class="hljs-string">&#x27;&#x27;</span>).<span class="hljs-title function_">map</span>(<span class="hljs-function">(<span class="hljs-params">ch</span>) =&gt;</span> ch.<span class="hljs-title function_">codePointAt</span>(<span class="hljs-number">0</span>));
+  <span class="hljs-keyword">return</span> petals.<span class="hljs-title function_">reduce</span>(<span class="hljs-function">(<span class="hljs-params">sum, code</span>) =&gt;</span> sum + code, <span class="hljs-number">0</span>) % <span class="hljs-number">1024</span>;
+}
+
+<span class="hljs-comment">// 复制按钮在鼠标移上去的时候才出现</span>
+<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">bloom</span>(<span class="hljs-string">&#x27;一个人像一朵花&#x27;</span>));
+</code></pre></div><p>Python：</p>
+<div class="md-code" data-lang="python"><div class="md-code__bar"><span class="md-code__lang">python</span><button type="button" class="md-code__copy" data-copy>复制</button></div><pre class="md-code__pre"><code class="hljs language-python"><span class="hljs-keyword">from</span> dataclasses <span class="hljs-keyword">import</span> dataclass
+
+<span class="hljs-meta">@dataclass</span>
+<span class="hljs-keyword">class</span> <span class="hljs-title class_">Log</span>:
+    date: <span class="hljs-built_in">str</span>
+    text: <span class="hljs-built_in">str</span>
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">one_liners</span>(<span class="hljs-params">logs</span>):
+    <span class="hljs-keyword">return</span> [log <span class="hljs-keyword">for</span> log <span class="hljs-keyword">in</span> logs <span class="hljs-keyword">if</span> <span class="hljs-built_in">len</span>(log.text) &lt; <span class="hljs-number">20</span>]
+</code></pre></div><p>Shell：</p>
+<div class="md-code" data-lang="bash"><div class="md-code__bar"><span class="md-code__lang">bash</span><button type="button" class="md-code__copy" data-copy>复制</button></div><pre class="md-code__pre"><code class="hljs language-bash">npm install
+npm run build
+npm start
+</code></pre></div><h3 id="表格" tabindex="-1">表格</h3>
+<div class="md-table-wrap"><table><thead>
+<tr>
+<th>世界</th>
+<th>含义</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BLOOM</td>
+<td>与世界的交集</td>
+<td>缘起 / 本我 / 绽放</td>
+</tr>
+<tr>
+<td>INK</td>
+<td>与世界暂时无交集</td>
+<td>日志</td>
+</tr>
+<tr>
+<td>转场</td>
+<td>绽放 ↔ 入墨</td>
+<td>墨点扩散 / 重新生长</td>
+</tr>
+</tbody>
+</table></div><p>很长的表格在窄屏上应该只在容器内部横向滚动，不能把整个页面撑宽：</p>
+<div class="md-table-wrap"><table><thead>
+<tr>
+<th>项目</th>
+<th>说明</th>
+<th>说明</th>
+<th>说明</th>
+<th>说明</th>
+<th>说明</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+</tr>
+<tr>
+<td>二</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+<td>内容</td>
+</tr>
+</tbody>
+</table></div><h3 id="数学" tabindex="-1">数学</h3>
+<p>行内公式 <span class="md-math"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> 应该和文字基线对齐。</p>
+<p>块级公式：</p>
+<div class="md-math-block"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.3262em;vertical-align:-0.9119em;"></span><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.4445em;position:relative;top:-0.0011em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4143em;"><span style="top:-1.7881em;margin-left:-0.4445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span><span style="top:-3.8129em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.9119em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.0369em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913em;"><span style="top:-2.931em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.1633em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.4773em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">2</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8003em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.0359em;">π</span></span></span><span style="top:-2.7603em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg xmlns="http://www.w3.org/2000/svg" width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2397em;"><span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></div><h3 id="脚注" tabindex="-1">脚注</h3>
+<p>这一句带一个脚注<sup class="md-fn-ref" id="fnref1"><a href="#fn1" role="doc-noteref">1</a></sup>，另一句带第二个<sup class="md-fn-ref" id="fnref2"><a href="#fn2" role="doc-noteref">2</a></sup>。</p>
+<hr class="md-hr"><h3 id="结尾" tabindex="-1">结尾</h3>
+<p>分割线上面是全部组件。正文到这里就结束了，下面应该只有上一篇 / 下一篇，不应该有相关推荐、热门、猜你喜欢、Newsletter 或者任何推广卡片。</p>
+<hr class="footnotes-sep">
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>脚注是 Markdown 标准语法，应该在正文末尾安静地排出来。 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+<li id="fn2" class="footnote-item"><p>第二条脚注，用来验证多条脚注的编号和回跳。 <a href="#fnref2" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    <nav class="post__nav" aria-label="文章导航">
+      <span class="post__nav-prev">
+        &larr; <a href="/log/09-08-%E7%98%A6%E4%BA%86%E5%90%97/">瘦了吗</a>
+      </span>
+      <span class="post__nav-next">
+        
+      </span>
+    </nav>
+
+    
+  </article>
+</main>
+
+<footer class="site-footer container">
+  <div class="footer-inner">
+    <div class="footer-social">
+      
+      <a class="footer-link" href="https://www.xiaohongshu.com/user/profile/zhangzhongwei" target="_blank" rel="noopener noreferrer"
+         title="小红书 · @zhangzhongwei"
+         aria-label="小红书">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.6" y="5.2" width="18.8" height="13.6" rx="3.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7.4 10.2h9.2M7.4 13.6h5.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      
+      <a class="footer-link" href="https://www.douyin.com/user/zhangzhongwei" target="_blank" rel="noopener noreferrer"
+         title="抖音 · @zhangzhongwei"
+         aria-label="抖音">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.2 3.6v9.9a3.4 3.4 0 1 1-3-3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M14.2 5.4c.7 2 2.4 3.3 4.6 3.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      
+      <a class="footer-link" href="https://github.com/zhangzhongwei" target="_blank" rel="noopener noreferrer"
+         title="GitHub · @zhangzhongwei"
+         aria-label="GitHub">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.6a9.4 9.4 0 0 0-3 18.3c.5.1.7-.2.7-.5v-1.7c-2.4.5-3-1.1-3-1.1-.4-1-1-1.3-1-1.3-.9-.6 0-.6 0-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.7.4-1.1.6-1.4-2-.2-4.2-1-4.2-4.5 0-1 .3-1.8.9-2.4-.1-.2-.4-1.1.1-2.3 0 0 .8-.3 2.6 1a8.8 8.8 0 0 1 4.7 0c1.8-1.3 2.6-1 2.6-1 .5 1.2.2 2.1.1 2.3.6.6.9 1.4.9 2.4 0 3.5-2.2 4.3-4.2 4.5.5.4.8 1.1.8 2.2v2.9c0 .3.2.6.7.5A9.4 9.4 0 0 0 12 2.6z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+      </a>
+      
+      <a class="footer-link" href="mailto:hi@zhangzhongwei.top" target="_blank" rel="noopener noreferrer"
+         title="Email · hi@zhangzhongwei.top"
+         aria-label="Email">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5.4" width="18" height="13.2" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M4.2 7.2 12 12.9l7.8-5.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </a>
+      
+    </div>
+    <div class="footer-meta">
+      <span>@zhangzhongwei</span>
+    </div>
+  </div>
+</footer>
+
+<div class="search" id="search" hidden>
+  <div class="search__backdrop" data-search-close></div>
+  <div class="search__panel" role="dialog" aria-modal="true" aria-label="搜索">
+    <input id="search-input" class="search__input" type="search" placeholder="搜索全部文章" autocomplete="off" spellcheck="false" aria-label="搜索关键词">
+    <div class="search__hint">空格表示「同时包含」，<code>|</code> 表示「任一」，<code>"短语"</code> 精确匹配 · Esc 关闭</div>
+    <div class="search__results" id="search-results"></div>
+  </div>
+</div>
+
+<script type="module" src="/assets/site.js?v=1789408358036"></script>
+</body>
+</html>
