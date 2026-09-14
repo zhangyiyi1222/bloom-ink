@@ -1,0 +1,35 @@
+<%- include('partials/head') %>
+<canvas class="world-canvas" id="world-canvas" aria-hidden="true"
+  data-bloom="<%= settings['bloom.image'] || '' %>"
+  data-ink="<%= settings['ink.image'] || '' %>"></canvas>
+
+<%- include('partials/nav') %>
+
+<main class="main container">
+  <section class="home-cover">
+    <h1 class="home-hello home-words">入花<span class="home-words__sep">·</span>入世界</h1>
+  </section>
+
+  <section class="laundry" aria-label="照片">
+    <% if (homePhotos && homePhotos.length) { %>
+    <div class="laundry-row">
+      <% for (const photo of homePhotos) { %>
+      <a class="laundry-frame" href="<%= photo.url %>" target="_blank" rel="noopener">
+        <img src="<%= photo.thumb %>" alt="<%= photo.alt %>" loading="lazy">
+        <% if (photo.caption) { %>
+        <span class="laundry-caption"><%= photo.caption %></span>
+        <% } %>
+      </a>
+      <% } %>
+    </div>
+    <% } else { %>
+    <p class="laundry-empty">还没有照片。后台「媒体」里上传几张，这里就会一张张挂起来。</p>
+    <% } %>
+  </section>
+</main>
+
+<%- include('partials/footer') %>
+<%- include('partials/search') %>
+<script type="module" src="/assets/site.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<% const inkPhoto = settings['ink.homePhoto'] || settings['ink.image'] || ''; %>
+<%- include('partials/head') %>
+
+<% if (section.key === 'ink') { %>
+<!-- 墨色世界的首页：版式和亮色首页一样（字在上、照片在下），只是只有一张照片 -->
+<div class="ink-ambient" aria-hidden="true"></div>
+<%- include('partials/nav') %>
+<main class="main container">
+  <section class="home-cover">
+    <h1 class="home-hello home-words">归心<span class="home-words__sep">·</span>入梦</h1>
+  </section>
+  <% if (inkPhoto) { %>
+  <figure class="ink-home__photo">
+    <img src="<%= inkPhoto %>" alt="<%= site.name %>" loading="eager">
+  </figure>
+  <% } %>
+</main>
+<% } else { %>
+<% if (section.key === 'log') { %>
+<div class="ink-ambient" aria-hidden="true"></div>
+<% } else { %>
+<div class="section-ambient" aria-hidden="true"></div>
+<% } %>
+<%- include('partials/nav') %>
+<div class="container page-head">
+  <h1 class="page-head__title"><%= section.name %></h1>
+  <% if (section.question) { %>
+  <p class="page-head__note"><%= section.question %></p>
+  <% } %>
+</div>
+<main class="main container"<%= section.key === 'log' ? ' id="归心"' : '' %>>
+  <%- include('partials/archive-list', { tree }) %>
+</main>
+<% } %>
+
+<%- include('partials/footer') %>
+<%- include('partials/search') %>
+<script type="module" src="/assets/site.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

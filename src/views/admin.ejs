@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-page="admin">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>后台 · <%= site.title %></title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light">
+<link rel="stylesheet" href="/assets/admin.css?v=<%= assetVersion %>">
+</head>
+<body class="admin-body">
+<div id="admin-root" data-has-user="<%= hasUser ? '1' : '0' %>" data-mount="<%= mount %>"></div>
+<script>window.__ADMIN__ = { mount: <%- JSON.stringify(mount) %>, hasUser: <%= hasUser ? 'true' : 'false' %> };</script>
+<script type="module" src="/assets/admin.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

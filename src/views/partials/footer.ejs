@@ -1,0 +1,16 @@
+<footer class="site-footer container">
+  <div class="footer-inner">
+    <div class="footer-social">
+      <% for (const link of socialLinks) { %>
+      <a class="footer-link" href="<%= link.url %>" target="_blank" rel="noopener noreferrer"
+         title="<%= link.label || link.platform %><%= link.handle ? ' · ' + link.handle : '' %>"
+         aria-label="<%= link.label || link.platform %>">
+        <%- socialIcon(link.platform) %>
+      </a>
+      <% } %>
+    </div>
+    <div class="footer-meta">
+      <span><%= site.handle %></span>
+    </div>
+  </div>
+</footer>

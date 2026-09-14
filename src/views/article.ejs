@@ -1,0 +1,47 @@
+<%- include('partials/head') %>
+<% if (article.section === 'log') { %>
+<div class="ink-ambient" aria-hidden="true"></div>
+<% } else { %>
+<div class="section-ambient" aria-hidden="true"></div>
+<% } %>
+<%- include('partials/nav') %>
+
+<% if (previewMode) { %>
+<div class="preview-bar">预览中 · 未发布内容 · <a href="/admin/articles/<%= article.id %>">回到编辑</a></div>
+<% } %>
+
+<main class="main container main--narrow">
+  <article class="post">
+    <header class="post__head">
+      <h1 class="post__title"><%= article.title %></h1>
+      <p class="post__meta">
+        <span class="post__author"><%= site.name %></span>
+        <span class="post__sep" aria-hidden="true">/</span>
+        <time datetime="<%= article.published_at %>"><%= publishedLabel %></time>
+      </p>
+    </header>
+
+    <div class="post__body md">
+      <%- html %>
+    </div>
+
+    <nav class="post__nav" aria-label="文章导航">
+      <span class="post__nav-prev">
+        <% if (neighbors.prev) { %>&larr; <a href="<%= neighbors.prev.permalink %>"><%= neighbors.prev.title %></a><% } %>
+      </span>
+      <span class="post__nav-next">
+        <% if (neighbors.next) { %><a href="<%= neighbors.next.permalink %>"><%= neighbors.next.title %></a> &rarr;<% } %>
+      </span>
+    </nav>
+
+    <% if (canEdit) { %>
+    <p class="post__admin"><a href="/admin/articles/<%= article.id %>">编辑这篇文章</a></p>
+    <% } %>
+  </article>
+</main>
+
+<%- include('partials/footer') %>
+<%- include('partials/search') %>
+<script type="module" src="/assets/site.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

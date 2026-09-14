@@ -1,0 +1,19 @@
+<%- include('partials/head') %>
+<%- include('partials/nav') %>
+
+<div class="container page-head">
+  <h1 class="page-head__title"><%= code %></h1>
+  <p class="page-head__note"><%= message %></p>
+</div>
+
+<main class="main container">
+  <div class="archive">
+    <p class="archive-empty">你可以<button type="button" class="nav-link" data-search-open>搜索</button>，或者<a href="/">回到首页</a>。</p>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
+<%- include('partials/search') %>
+<script type="module" src="/assets/site.js?v=<%= assetVersion %>"></script>
+</body>
+</html>

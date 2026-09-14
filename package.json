@@ -1,0 +1,56 @@
+{
+  "name": "bloom-ink",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "一个人像一朵花：面对世界时绽放，回到自己时入墨。",
+  "engines": {
+    "node": ">=22.5"
+  },
+  "scripts": {
+    "build": "vite build && node scripts/copy-vendor.mjs",
+    "build:watch": "vite build --watch",
+    "start": "node src/server/index.mjs",
+    "dev": "node scripts/dev.mjs",
+    "setup": "npm install && npm run build && npm run reset",
+    "reset": "node src/server/cli-reset.mjs",
+    "seed": "node src/server/cli-seed.mjs",
+    "backup": "node src/server/cli-backup.mjs",
+    "export": "node src/server/cli-export.mjs",
+    "admin:password": "node src/server/cli-password.mjs",
+    "check": "node scripts/md-check.mjs && node scripts/e2e-misc.mjs && node scripts/e2e-check.mjs && node scripts/e2e-admin.mjs",
+    "check:md": "node scripts/md-check.mjs",
+    "check:site": "node scripts/e2e-check.mjs",
+    "check:admin": "node scripts/e2e-admin.mjs",
+    "check:misc": "node scripts/e2e-misc.mjs"
+  },
+  "dependencies": {
+    "@codemirror/autocomplete": "^6.18.0",
+    "@codemirror/commands": "^6.7.0",
+    "@codemirror/lang-markdown": "^6.3.0",
+    "@codemirror/language": "^6.10.0",
+    "@codemirror/language-data": "^6.5.0",
+    "@codemirror/search": "^6.5.0",
+    "@codemirror/state": "^6.4.0",
+    "@codemirror/view": "^6.34.0",
+    "codemirror": "^6.0.1",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "fuse.js": "^7.0.0",
+    "highlight.js": "^11.10.0",
+    "katex": "^0.16.11",
+    "markdown-it": "^14.1.0",
+    "markdown-it-anchor": "^9.2.0",
+    "markdown-it-attrs": "^4.3.1",
+    "markdown-it-footnote": "^4.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.0",
+    "vite": "^7.0.0"
+  },
+  "optionalDependencies": {
+    "sharp": "^0.34.0"
+  }
+}

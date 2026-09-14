@@ -1,0 +1,45 @@
+<%
+  // 墨色世界有两个入口：首页（四个字 + 一张照片）/ 归心（年份 + 文章）。
+  // 世界图标用普通链接，换页交给浏览器的跨文档过渡，两个方向都不会闪。
+  const inkSection = locals.section && locals.section.key;
+  const isInk = world === 'ink' || inkSection === 'ink' || inkSection === 'log';
+  // 从亮色世界切过来时，落在「归心」（年份 + 文章）那一页；首页在导航里点。
+  const toggleHref = isInk ? '/' : '/log/';
+  const toggleLabel = isInk ? '回到绽放' : '回到自己（归心）';
+
+  const onInkHome = inkSection === 'ink';
+  const onInkArchive = inkSection === 'log' || Boolean(locals.article && locals.article.section === 'log');
+%>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="site-brand" href="/" aria-label="<%= site.name %> · 回到首页"><%- sunSvg %></a>
+
+    <div class="header-right">
+      <nav class="site-nav site-nav--bloom" aria-label="绽放">
+        <a class="nav-link<%= pageKind === 'home' ? ' is-active' : '' %>" href="/">首页</a>
+        <% for (const item of navSections) { %>
+        <a class="nav-link<%= activeSection === item.key ? ' is-active' : '' %>" href="/<%= item.key %>/"><%= item.name %></a>
+        <% } %>
+      </nav>
+
+      <nav class="site-nav site-nav--ink" aria-label="入墨">
+        <a class="nav-link--home<%= onInkHome ? ' is-active' : '' %>" href="/ink/">首页</a>
+        <a class="nav-link<%= onInkArchive ? ' is-active' : '' %>" href="/log/"><%= inkNavSection.name %></a>
+      </nav>
+
+      <div class="header-tools">
+        <button type="button" class="nav-icon" data-search-open aria-label="搜索" title="搜索（/ 或 Ctrl+K）">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.6" cy="8.6" r="5.6" fill="none" stroke="currentColor" stroke-width="1.4"/><line x1="12.9" y1="12.9" x2="17.2" y2="17.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </button>
+        <a class="world-toggle" href="<%= toggleHref %>" data-world-toggle aria-label="<%= toggleLabel %>" title="<%= toggleLabel %>">
+          <span class="world-toggle__sun" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="4.1" fill="none" stroke="currentColor" stroke-width="1.3"/><g stroke="currentColor" stroke-width="1.3" stroke-linecap="round"><line x1="10" y1="1.8" x2="10" y2="4"/><line x1="10" y1="16" x2="10" y2="18.2"/><line x1="1.8" y1="10" x2="4" y2="10"/><line x1="16" y1="10" x2="18.2" y2="10"/><line x1="4.3" y1="4.3" x2="5.9" y2="5.9"/><line x1="14.1" y1="14.1" x2="15.7" y2="15.7"/><line x1="4.3" y1="15.7" x2="5.9" y2="14.1"/><line x1="14.1" y1="5.9" x2="15.7" y2="4.3"/></g></svg>
+          </span>
+          <span class="world-toggle__moon" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><path d="M13.6 2.4a7.4 7.4 0 1 0 4 13.3 7.6 7.6 0 0 1-4-13.3z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>

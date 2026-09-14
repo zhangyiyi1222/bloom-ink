@@ -1,0 +1,21 @@
+<% if (!tree.length) { %>
+<p class="archive-empty">这里还是空的。</p>
+<% } else { %>
+<div class="archive">
+  <% for (const year of tree) { %>
+  <section class="archive__year">
+    <h2 class="archive__year-label"><%= year.year %></h2>
+    <% for (const month of year.months) { %>
+    <ul class="archive__month">
+      <% for (const item of month.items) { %>
+      <li class="archive__item">
+        <time class="archive__date" datetime="<%= item.datetime %>"><%= item.dateLabel %></time>
+        <a class="archive__title" href="<%= item.permalink %>"><%= item.title %></a>
+      </li>
+      <% } %>
+    </ul>
+    <% } %>
+  </section>
+  <% } %>
+</div>
+<% } %>
