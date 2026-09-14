@@ -13,6 +13,7 @@ export default function Articles({ mode, navigate, query, onRefresh }) {
   const [section, setSection] = useState('');
   const [status, setStatus] = useState('');
   const [trash, setTrash] = useState(false);
+  const [notice, setNotice] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -32,6 +33,28 @@ export default function Articles({ mode, navigate, query, onRefresh }) {
   useEffect(() => {
     if (mode !== 'new') load();
   }, [load, mode]);
+
+  const flash = (message) => {
+    setNotice(message);
+    window.setTimeout(() => setNotice(''), 2400);
+  };
+
+  const trashArticle = async (row) => {
+    const ok = window.confirm(`把《${row.title || '这篇'}》放进回收站？\n\n删除后可以在「回收站」里恢复。`);
+    if (!ok) return;
+    await api.trashArticle(row.id);
+    flash('已放进回收站，可在「回收站」里恢复');
+    load();
+    onRefresh?.();
+  };
+
+  const purgeArticle = async (row) => {
+    const ok = window.confirm(`彻底删除《${row.title || '这篇'}》？\n\n这一步无法撤销。`);
+    if (!ok) return;
+    await api.purgeArticle(row.id);
+    load();
+    onRefresh?.();
+  };
 
   if (mode === 'new') {
     return (
@@ -69,11 +92,18 @@ export default function Articles({ mode, navigate, query, onRefresh }) {
     <div>
       <h1 className="admin-page-title">文章</h1>
       <p className="admin-page-note">
-        共 {total} 篇{query ? `（匹配「${query}」）` : ''}
+        共 {total} 篇{query ? `（匹配「${query}」）` : ''} · 点标题或「编辑」都能进编辑器
       </p>
 
       <div className="tabs">
-        <button className={!section && !trash && !status ? 'is-active' : ''} onClick={() => { setSection(''); setStatus(''); setTrash(false); }}>
+        <button
+          className={!section && !trash && !status ? 'is-active' : ''}
+          onClick={() => {
+            setSection('');
+            setStatus('');
+            setTrash(false);
+          }}
+        >
           全部
         </button>
         {SECTIONS.map((item) => (
@@ -124,6 +154,7 @@ export default function Articles({ mode, navigate, query, onRefresh }) {
       </div>
 
       {error ? <div className="alert alert--error">{error}</div> : null}
+      {notice ? <div className="alert alert--ok">{notice}</div> : null}
 
       {loading ? <p className="empty">正在加载…</p> : null}
       {!loading && rows.length === 0 ? <p className="empty">这里还没有文章。</p> : null}
@@ -161,37 +192,29 @@ export default function Articles({ mode, navigate, query, onRefresh }) {
                     className="btn btn--small"
                     onClick={async () => {
                       await api.restoreArticle(row.id);
+                      flash('已从回收站恢复');
                       load();
                       onRefresh?.();
                     }}
                   >
                     恢复
                   </button>
-                  <button
-                    className="btn btn--small btn--danger"
-                    onClick={async () => {
-                      if (!window.confirm('彻底删除这篇？无法恢复。')) return;
-                      await api.purgeArticle(row.id);
-                      load();
-                      onRefresh?.();
-                    }}
-                  >
+                  <button className="btn btn--small btn--danger" onClick={() => purgeArticle(row)}>
                     彻底删除
                   </button>
                 </>
               ) : (
                 <>
+                  <button
+                    className="btn btn--small btn--primary"
+                    onClick={() => navigate(`articles/${row.id}`)}
+                  >
+                    编辑
+                  </button>
                   <a className="btn btn--small" href={`/${row.section}/${row.slug}/`} target="_blank" rel="noreferrer">
                     查看
                   </a>
-                  <button
-                    className="btn btn--small btn--danger"
-                    onClick={async () => {
-                      await api.trashArticle(row.id);
-                      load();
-                      onRefresh?.();
-                    }}
-                  >
+                  <button className="btn btn--small btn--danger" onClick={() => trashArticle(row)}>
                     删除
                   </button>
                 </>

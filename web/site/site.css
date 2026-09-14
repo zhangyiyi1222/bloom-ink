@@ -2298,3 +2298,22 @@ body.page-shell--log .ink-home__photo {
     font-size: 1.25rem;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * 手机修的两个问题：
+ *   1. 页脚原来在窄屏会竖着排、@handle 跑到第二行 —— 现在始终一行居中
+ *   2. 后台列表的“编辑/删除”按钮原来靠 hover 才显示 —— 触屏上永远显示
+ * ------------------------------------------------------------------ */
+@media (max-width: 640px) {
+  .footer-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.1rem;
+  }
+
+  .footer-meta {
+    margin-left: 0;
+  }
+}

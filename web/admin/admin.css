@@ -975,3 +975,23 @@ select {
   transform-origin: top center;
   margin: 0 auto;
 }
+
+/* 触屏上不靠 hover：列表里的「编辑 / 删除」按钮永远显示，手机上才找得到 */
+@media (hover: none), (max-width: 900px) {
+  .list__actions {
+    opacity: 1;
+  }
+}
+
+/* 触屏上按钮大一点，好点 */
+@media (hover: none) {
+  .btn--small {
+    padding: 6px 10px;
+    font-size: 12.5px;
+  }
+
+  .list__row {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}
